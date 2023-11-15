@@ -11,6 +11,11 @@ import (
 	"strings"
 )
 
+const (
+	htmlDir     = "./html/"
+	tmplFileExt = ".tmpl.html"
+)
+
 func doesFileExist(pathToFile string) bool {
 	info, err := os.Stat(filepath.Clean(pathToFile))
 	if err != nil || info.IsDir() {
@@ -47,18 +52,38 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
-  w.Header().Set("Content-Type","text/html; charset=utf-8")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-  if r.URL.Path == "/" {
-    r.URL.Path = "index"
-  }
+	path := strings.Split(r.URL.Path, "/")
+	page := path[1]
+	if r.URL.Path == "/" {
+		page = "index"
+	}
 
-  if !doesFileExist(filepath.Join("html", r.URL.Path + ".html")) {
-    http.Error(w, "Page not found", http.StatusNotFound)
-    return
-  }
-  
-  http.ServeFile(w, r, filepath.Join("html", r.URL.Path + ".html"))
+	if len(path) == 3 && path[2] == "" {
+		http.Redirect(w, r, "/"+page, 302)
+		return
+	} else if len(path) > 3 {
+		http.Error(w, "page not found", http.StatusNotFound)
+		return
+	}
+
+	if !doesFileExist(filepath.Join(htmlDir, "pages", page+tmplFileExt)) {
+		http.Error(w, "page not found", http.StatusNotFound)
+		return
+	}
+
+	tmpl, err := bindTMPL(
+		filepath.Join(htmlDir, "base"+tmplFileExt),
+		filepath.Join(htmlDir, "pages", page+tmplFileExt),
+	)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	serveTMPL(w, r, tmpl, nil)
 }
 
 func examHandler(w http.ResponseWriter, r *http.Request) {
