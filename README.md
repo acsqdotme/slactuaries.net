@@ -21,7 +21,7 @@ an actuarial degree and some exams into a slick site.
 
 - [ ] make md -> html with native go solution
 
-- [ ] set up KaTeX for equation rendering
+- [x] ~set up KaTeX for equation rendering~ (still need to source locally though)
 
 - [ ] user login and track progress (probably sql)
 
