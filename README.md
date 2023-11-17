@@ -26,3 +26,22 @@ an actuarial degree and some exams into a slick site.
 - [ ] user login and track progress (probably sql)
 
 - [ ] cool ui
+
+## wanna help?
+
+you can...
+
+* send [pull requests](https://github.com/acsqdotme/slactuaries.net) or [email
+  patches](https://sr.ht/~acsqdotme/slactuaries.net) for my dodgy code
+
+* give suggestions for the content itself
+
+* send in your old notes! as long as it's legible and easy to read through,
+  it'll make a cool edition to the site
+
+* get in touch and share your thoughts
+
+you can reach out through
+[github](https://github.com/acsqdotme/slactuaries.net),
+[sourcehut](https://sr.ht/~acsqdotme/slactuaries.net), and plain old email:
+[angel@acsq.me](mailto:angel@acsq.me).
