@@ -24,6 +24,14 @@ func doesFileExist(pathToFile string) bool {
 	return true
 }
 
+func doesDirExist(pathToFile string) bool {
+	info, err := os.Stat(filepath.Clean(pathToFile))
+	if err != nil || !info.IsDir() {
+		return false
+	}
+	return true
+}
+
 func bindTMPL(files ...string) (*template.Template, error) {
 	for _, checkFile := range files {
 		if !doesFileExist(checkFile) {
