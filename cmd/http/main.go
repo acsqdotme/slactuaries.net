@@ -13,6 +13,10 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", pageHandler)
+	mux.HandleFunc("/p", topicHandler)
+	mux.HandleFunc("/p/", topicHandler)
+	mux.HandleFunc("/fm", topicHandler)
+	mux.HandleFunc("/fm/", topicHandler)
 	// todo make file server handler func
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
