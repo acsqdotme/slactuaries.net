@@ -1,12 +1,12 @@
 :root {
   --body-color: #000000;
-  --background-color: #FFFFFF;
+  --bg-color: #FFFFFF;
 }
 
 @media (prefers-color-scheme:dark) {
   :root {
-    --bg-color: #000000;
     --body-color: #FFFFFF;
+    --bg-color: #212529;
   }
 }
 
