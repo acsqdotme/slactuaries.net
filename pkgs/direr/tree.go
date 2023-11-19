@@ -60,3 +60,32 @@ func MakeTree(pathToRoot string, extFilter string) (t *Tree, err error) {
 }
 
 // TODO fill out prev and next and URLPath
+
+// PrintTree is for testing
+func PrintTree(t Tree, indent int) {
+	for i := 0; i < indent; i++ {
+		fmt.Print("  ")
+	}
+
+	if t.IsDir {
+		fmt.Print("📁")
+	} else {
+		fmt.Print("📃")
+	}
+
+	prev := "<nil>"
+	next := "<nil>"
+	if t.Prev != nil {
+		prev = t.Prev.FileName
+	}
+	if t.Next != nil {
+		next = t.Next.FileName
+	}
+
+	fmt.Printf("%s ; \t\tprev: %s \t\tnext: %s \t\t %s\n", t.FileName, prev, next, t.URLPath)
+	if t.IsDir {
+		for _, ch := range t.Children {
+			PrintTree(*ch, indent+1)
+		}
+	}
+}
