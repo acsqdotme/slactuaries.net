@@ -120,6 +120,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return
 	}
+	direr.MakePaths(t, filepath.Join("/", topic), ".md", true)
 	data["Tree"] = *t
 
 	if len(path) < 3 {
@@ -157,5 +158,5 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	serveTMPL(w, r, tmpl, data)
-  return
+	return
 }

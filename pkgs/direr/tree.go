@@ -61,6 +61,23 @@ func MakeTree(pathToRoot string, extFilter string) (t *Tree, err error) {
 
 // TODO fill out prev and next and URLPath
 
+// MakePaths walks through a tree and fills in each node's URL Path
+// according to the base string and the cut out file extension filter
+// TODO make internal func and bootstrap with MakeTree to a generic
+// GenerateTree func
+func MakePaths(t *Tree, base string, cutExt string, first bool) {
+	t.URLPath = filepath.Join(base, strings.TrimSuffix(t.FileName, cutExt))
+	if first {
+		t.URLPath = filepath.Join(base)
+	}
+
+	if t.IsDir {
+		for _, ch := range t.Children {
+			MakePaths(ch, t.URLPath, cutExt, false)
+		}
+	}
+}
+
 // PrintTree is for testing
 func PrintTree(t Tree, indent int) {
 	for i := 0; i < indent; i++ {
