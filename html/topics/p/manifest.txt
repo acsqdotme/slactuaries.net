@@ -1,0 +1,37 @@
+P
+=====
+
+/* just for figuring out realistic structure */
+
+01-intro.md
+
+02-set-theory/
+  intro.md
+
+03-discrete-distributions/
+  01-bernoulli.md
+  02-binomial/
+    01-example.md
+  03-geometric/
+    01-intro.md
+  04-poisson/
+    01-poisson.md
+
+04-continuous/
+  01-intro.md
+  02-uniform/
+    01-intro.md
+  03-exponential/
+    01-derive-from-poisson.md
+    02-bus-example.md
+  04-pareto/
+    01-pareto.md
+
+05-deductibles-and-caps/
+  01-deductibles.md
+  02-caps.md
+
+06-normal-distribution/
+  01-normal.md
+  02-std-normal.md
+  03-log-normal.md
