@@ -8,4 +8,11 @@ index for probability
 <h2>p</h2>
 
 <p>epic theory and cool integrals to solve</p>
+
+<ul>
+  {{ range .Tree.Children }}
+  {{ template "ulTree" . }}
+  {{ end }}
+</ul>
+
 {{ end }}

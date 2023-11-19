@@ -1,0 +1,11 @@
+{{ define "ulTree" }}
+  <li>{{if .IsDir }}<strong>{{ .FileName }}</strong>{{ else }}<a href="{{ .URLPath }}">{{ .FileName }}</a>{{ end }}
+  {{ if gt (len .Children) 0 }}
+    <ul>
+      {{ range .Children }}
+      {{ template "ulTree" . }}
+      {{ end }}
+    </ul>
+  {{ end }}
+  </li>
+{{ end }}`
