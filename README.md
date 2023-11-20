@@ -45,3 +45,10 @@ you can reach out through
 [github](https://github.com/acsqdotme/slactuaries.net),
 [sourcehut](https://sr.ht/~acsqdotme/slactuaries.net), and plain old email:
 [angel@acsq.me](mailto:angel@acsq.me).
+
+## Licenses
+
+code for this site is under the [Affero General Public License
+3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) and articles are under the
+[Creative Commons Attribution Share Alike 4.0
+International](https://creativecommons.org/licenses/by-sa/4.0/).
