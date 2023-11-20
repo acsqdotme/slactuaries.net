@@ -78,6 +78,27 @@ func MakePaths(t *Tree, base string, cutExt string, first bool) {
 	}
 }
 
+// SetPrevNext *supposed* to set all the end nodes to point to each other in a
+// really convenient way, but it doesn't work :(((
+func SetPrevNext(t *Tree, lastLeaf **Tree) {
+	if !t.IsDir {
+		if lastLeaf != nil {
+			(*lastLeaf).Next = t
+			fmt.Println((*lastLeaf).FileName, ".Next is now", t.FileName) // TODO
+			t.Prev = *lastLeaf
+			fmt.Println(t.FileName, ".Previous is now", (*lastLeaf).FileName) // TODO
+		}
+		lastLeaf = &t
+		fmt.Println("setting lastLeaf to", t.FileName) // TODO rm debugging
+	}
+
+	if t.IsDir {
+		for _, ch := range t.Children {
+			SetPrevNext(ch, lastLeaf)
+		}
+	}
+}
+
 // PrintTree is for testing
 func PrintTree(t Tree, indent int) {
 	for i := 0; i < indent; i++ {
