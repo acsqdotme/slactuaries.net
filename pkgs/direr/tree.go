@@ -20,6 +20,21 @@ type Tree struct {
 	Children []*Tree
 }
 
+// GenerateTree is gonna be my wrapper for all my little Tree making funcs once
+// they're all functional
+func GenerateTree(pathToRoot string, extFilter string, urlBase string) (Tree, error) {
+	t, err := MakeTree(pathToRoot, extFilter)
+	if err != nil {
+		return Tree{}, err
+	}
+
+	MakePaths(t, urlBase, extFilter, true)
+
+	SetPrevNext(t, nil)
+
+	return *t, nil
+}
+
 // MakeTree makes a pointer to a tree based on the relative path to the root
 // dir given in pathToRoot and recursively fills out FileName, and IsDir for all nodes.
 // (joining pathPadding to pathToRoot to make absolute paths)
