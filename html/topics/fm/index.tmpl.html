@@ -8,4 +8,10 @@ index for financial mathematics
 <h2>fm</h2>
 
 <p>fun word problems w/ even funner notation</p>
+
+<ul>
+  {{ range .Tree.Children }}
+  {{ template "ulTree" . }}
+  {{ end }}
+</ul>
 {{ end }}
