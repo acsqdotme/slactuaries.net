@@ -121,6 +121,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	direr.MakePaths(t, filepath.Join("/", topic), ".md", true)
+	direr.SetPrevNext(t)
 	data["Tree"] = *t
 
 	if len(path) < 3 {

@@ -30,7 +30,7 @@ func GenerateTree(pathToRoot string, extFilter string, urlBase string) (Tree, er
 
 	MakePaths(t, urlBase, extFilter, true)
 
-	SetPrevNext(t, nil)
+	SetPrevNext(t)
 
 	return *t, nil
 }
@@ -93,9 +93,13 @@ func MakePaths(t *Tree, base string, cutExt string, first bool) {
 	}
 }
 
+// lastLeaf is a helper variable for SetPrevNext
+// TODO make unglobal
+var lastLeaf **Tree
+
 // SetPrevNext *supposed* to set all the end nodes to point to each other in a
 // really convenient way, but it doesn't work :(((
-func SetPrevNext(t *Tree, lastLeaf **Tree) {
+func SetPrevNext(t *Tree) {
 	if !t.IsDir {
 		if lastLeaf != nil {
 			(*lastLeaf).Next = t
@@ -108,8 +112,8 @@ func SetPrevNext(t *Tree, lastLeaf **Tree) {
 	}
 
 	if t.IsDir {
-		for _, ch := range t.Children {
-			SetPrevNext(ch, lastLeaf)
+		for _, child := range t.Children {
+			SetPrevNext(child)
 		}
 	}
 }
