@@ -23,22 +23,21 @@ type Tree struct {
 // GenerateTree is gonna be my wrapper for all my little Tree making funcs once
 // they're all functional
 func GenerateTree(pathToRoot string, extFilter string, urlBase string) (Tree, error) {
-	t, err := MakeTree(pathToRoot, extFilter)
+	t, err := scanTree(pathToRoot, extFilter)
 	if err != nil {
 		return Tree{}, err
 	}
 
-	MakePaths(t, urlBase, extFilter, true)
-
-	SetPrevNext(t)
+	makePaths(t, urlBase, extFilter, true)
+	setPrevNext(t)
 
 	return *t, nil
 }
 
-// MakeTree makes a pointer to a tree based on the relative path to the root
+// scanTree makes a pointer to a tree based on the relative path to the root
 // dir given in pathToRoot and recursively fills out FileName, and IsDir for all nodes.
 // (joining pathPadding to pathToRoot to make absolute paths)
-func MakeTree(pathToRoot string, extFilter string) (t *Tree, err error) {
+func scanTree(pathToRoot string, extFilter string) (t *Tree, err error) {
 	info, err := os.Lstat(pathToRoot)
 	t = &Tree{
 		FileName: info.Name(),
@@ -56,7 +55,7 @@ func MakeTree(pathToRoot string, extFilter string) (t *Tree, err error) {
 		}
 
 		for _, c := range contents {
-			child, err := MakeTree(filepath.Join(pathToRoot, c.Name()), extFilter)
+			child, err := scanTree(filepath.Join(pathToRoot, c.Name()), extFilter)
 			if err != nil {
 				return nil, err
 			}
@@ -74,13 +73,11 @@ func MakeTree(pathToRoot string, extFilter string) (t *Tree, err error) {
 	return t, nil
 }
 
-// TODO fill out prev and next and URLPath
-
-// MakePaths walks through a tree and fills in each node's URL Path
+// makePaths walks through a tree and fills in each node's URL Path
 // according to the base string and the cut out file extension filter
-// TODO make internal func and bootstrap with MakeTree to a generic
+// TODO make internal func and bootstrap with scanTree to a generic
 // GenerateTree func
-func MakePaths(t *Tree, base string, cutExt string, first bool) {
+func makePaths(t *Tree, base string, cutExt string, first bool) {
 	t.URLPath = filepath.Join(base, strings.TrimSuffix(t.FileName, cutExt))
 	if first {
 		t.URLPath = filepath.Join(base)
@@ -88,32 +85,29 @@ func MakePaths(t *Tree, base string, cutExt string, first bool) {
 
 	if t.IsDir {
 		for _, ch := range t.Children {
-			MakePaths(ch, t.URLPath, cutExt, false)
+			makePaths(ch, t.URLPath, cutExt, false)
 		}
 	}
 }
 
-// lastLeaf is a helper variable for SetPrevNext
+// lastLeaf is a helper variable for setPrevNext
 // TODO make unglobal
 var lastLeaf **Tree
 
-// SetPrevNext *supposed* to set all the end nodes to point to each other in a
-// really convenient way, but it doesn't work :(((
-func SetPrevNext(t *Tree) {
+// setPrevNext flattens and sets previous and next pointers for all files in
+// the tree
+func setPrevNext(t *Tree) {
 	if !t.IsDir {
 		if lastLeaf != nil {
 			(*lastLeaf).Next = t
-			fmt.Println((*lastLeaf).FileName, ".Next is now", t.FileName) // TODO
 			t.Prev = *lastLeaf
-			fmt.Println(t.FileName, ".Previous is now", (*lastLeaf).FileName) // TODO
 		}
 		lastLeaf = &t
-		fmt.Println("setting lastLeaf to", t.FileName) // TODO rm debugging
 	}
 
 	if t.IsDir {
 		for _, child := range t.Children {
-			SetPrevNext(child)
+			setPrevNext(child)
 		}
 	}
 }
