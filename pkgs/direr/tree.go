@@ -18,7 +18,24 @@ type Tree struct {
 	Children []*Tree
 }
 
+// GetSubTree moves through the tree and finds whichever node corresponds to
+// the urlPath given
+func GetSubTree(index *Tree, urlPath string) (sub *Tree) {
+	if index.URLPath == urlPath {
+		return index
+	}
 
+	if index.IsDir && strings.HasPrefix(urlPath, index.URLPath) {
+		for _, child := range index.Children {
+			sub = GetSubTree(child, urlPath)
+			if sub != nil {
+				return sub
+			}
+		}
+	}
+
+	return nil
+}
 
 // PrintTree is for testing; TODO turn into real method
 func PrintTree(t Tree, indent int) {
