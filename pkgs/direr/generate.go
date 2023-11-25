@@ -14,7 +14,7 @@ func GenerateTree(pathToRoot string, extFilter string, urlBase string) (Tree, er
 		return Tree{}, err
 	}
 
-	makePaths(t, urlBase, extFilter, true)
+	makePaths(t, urlBase, true)
 	setPrevNext(t)
 
 	return *t, nil
@@ -26,11 +26,11 @@ func GenerateTree(pathToRoot string, extFilter string, urlBase string) (Tree, er
 func scanTree(pathToRoot string, extFilter string) (t *Tree, err error) {
 	info, err := os.Lstat(pathToRoot)
 	t = &Tree{
-		FileName: info.Name(),
+		FileName: strings.TrimSuffix(info.Name(), extFilter),
 		IsDir:    info.IsDir(),
 	}
 
-	if !t.IsDir && !strings.HasSuffix(t.FileName, extFilter) {
+	if !t.IsDir && !strings.HasSuffix(info.Name(), extFilter) {
 		return nil, nil
 	}
 
@@ -63,15 +63,15 @@ func scanTree(pathToRoot string, extFilter string) (t *Tree, err error) {
 // according to the base string and the cut out file extension filter
 // TODO make internal func and bootstrap with scanTree to a generic
 // GenerateTree func
-func makePaths(t *Tree, base string, cutExt string, first bool) {
-	t.URLPath = filepath.Join(base, strings.TrimSuffix(t.FileName, cutExt))
+func makePaths(t *Tree, base string, first bool) {
+	t.URLPath = filepath.Join(base, t.FileName)
 	if first {
 		t.URLPath = filepath.Join(base)
 	}
 
 	if t.IsDir {
 		for _, ch := range t.Children {
-			makePaths(ch, t.URLPath, cutExt, false)
+			makePaths(ch, t.URLPath, false)
 		}
 	}
 }
