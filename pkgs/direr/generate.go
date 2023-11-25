@@ -8,16 +8,16 @@ import (
 
 // GenerateTree is gonna be my wrapper for all my little Tree making funcs once
 // they're all functional
-func GenerateTree(pathToRoot string, extFilter string, urlBase string) (Tree, error) {
+func GenerateTree(pathToRoot string, extFilter string, urlBase string) (*Tree, error) {
 	t, err := scanTree(pathToRoot, extFilter)
 	if err != nil {
-		return Tree{}, err
+		return nil, err
 	}
 
 	makePaths(t, urlBase, true)
 	setPrevNext(t)
 
-	return *t, nil
+	return t, nil
 }
 
 // scanTree makes a pointer to a tree based on the relative path to the root
