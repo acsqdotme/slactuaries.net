@@ -1,5 +1,5 @@
 {{ define "ulTree" }}
-  <li>{{if .IsDir }}<strong>{{ .FileName }}</strong>{{ else }}<a href="{{ .URLPath }}">{{ .FileName }}</a>{{ end }}
+  <li class="ul-tree">{{if .IsDir }}<strong>{{ .FileName }}</strong>{{ else }}<a href="{{ .URLPath }}">{{ .FileName }}</a>{{ end }}
   {{ if gt (len .Children) 0 }}
     <ul>
       {{ range .Children }}
@@ -8,4 +8,4 @@
     </ul>
   {{ end }}
   </li>
-{{ end }}`
+{{ end }}
