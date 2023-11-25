@@ -155,6 +155,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := bindTMPL(
 		filepath.Join(htmlDir, "base"+tmplFileExt),
+		filepath.Join(htmlDir, "partials", "article"+tmplFileExt),
 		filepath.Join(htmlDir, "topics", topic, "lessons", page+tmplFileExt),
 	)
 	if err != nil {

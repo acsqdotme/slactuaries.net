@@ -1,0 +1,18 @@
+{{ define "main" }}
+  {{template "article" . }}
+
+  {{ block "prevNextLinks" .Tree }}
+    <nav class="prevNext">
+      {{ with .Prev }}
+      <span class="prev">Previous:
+        <a href="{{ .Prev.URLPath }}">{{ .Prev.FileName }}</a>
+      </span>
+      {{ end }}
+      {{ with .Next }}
+      <span class="next">Next:
+        <a href="{{ .Next.URLPath }}">{{ .Next.FileName }}</a>
+      </span>
+      {{ end }}
+    </nav>
+  {{ end }}
+{{ end }}
