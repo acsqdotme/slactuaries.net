@@ -114,14 +114,12 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := make(map[string]any)
-	t, err := direr.MakeTree(filepath.Join(htmlDir, "topics", topic, "lessons"), ".md")
+	t, err := direr.GenerateTree(filepath.Join(htmlDir, "topics", topic, "lessons"), tmplFileExt, filepath.Join("/", topic)) //TODO change to tmpl html
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return
 	}
-	direr.MakePaths(t, filepath.Join("/", topic), ".md", true)
-	direr.SetPrevNext(t)
 	data["Tree"] = *t
 
 	if len(path) < 3 {
