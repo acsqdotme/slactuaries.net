@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 
 	mathjax "github.com/litao91/goldmark-mathjax"
 	figure "github.com/mangoumbrella/goldmark-figure"
@@ -80,4 +81,16 @@ func md2HTML(md []byte) (html []byte, m Front, err error) {
 
 	html = buf.Bytes()
 	return html, m, nil
+}
+
+func html2TMPL(html string, m Front) (tmpl []byte, err error) {
+	if !m.Valid() {
+		return []byte{}, errors.New("Frontmatter not set")
+	}
+	return []byte(`{{ define "title" }}` + m.Title + `{{ end }}
+{{ define "description"}}` + m.Desc + `{{ end }}
+
+{{ define "article" }}
+` + html + `
+{{ end }}`), nil
 }
