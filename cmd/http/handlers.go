@@ -146,6 +146,15 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// change tree to subtree, if exists
+	t = direr.GetSubTree(t, filepath.Clean(r.URL.Path))
+	if t == nil {
+		log.Println(errors.New("subtree meta data not found"))
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+		return
+	}
+	data["Tree"] = *t
+
 	tmpl, err := bindTMPL(
 		filepath.Join(htmlDir, "base"+tmplFileExt),
 		filepath.Join(htmlDir, "topics", topic, "lessons", page+tmplFileExt),
