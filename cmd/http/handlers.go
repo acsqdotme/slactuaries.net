@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -141,8 +140,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	page := strings.TrimPrefix(r.URL.Path, "/"+topic+"/") // TODO make this less ugly but still removing leading slash
 
 	if !doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page+tmplFileExt)) { // TODO change how this checks for files
-		fmt.Println("can't find", filepath.Join(htmlDir, "topics", topic, "lessons", page+tmplFileExt))
-		http.Error(w, "page not found in dir", http.StatusNotFound)
+		http.Error(w, "page not found", http.StatusNotFound)
 		return
 	}
 
