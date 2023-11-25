@@ -3,6 +3,10 @@ package main
 import (
 	"bytes"
 	"errors"
+	"io/fs"
+	"os"
+	"path/filepath"
+	"strings"
 
 	mathjax "github.com/litao91/goldmark-mathjax"
 	figure "github.com/mangoumbrella/goldmark-figure"
@@ -93,4 +97,50 @@ func html2TMPL(html string, m Front) (tmpl []byte, err error) {
 {{ define "article" }}
 ` + html + `
 {{ end }}`), nil
+}
+
+func convertFile(pathToMD string) (err error) {
+	pathToMD = filepath.Clean(pathToMD)
+	md, err := os.ReadFile(pathToMD)
+	if err != nil {
+		return err
+	}
+
+	html, m, err := md2HTML(md)
+	if err != nil {
+		return err
+	}
+
+	tmpl, err := html2TMPL(string(html), m)
+	if err != nil {
+		return err
+	}
+
+	pathToHTML := strings.TrimSuffix(pathToMD, ".md") + tmplFileExt
+
+	err = os.WriteFile(pathToHTML, tmpl, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func convertDir(pathToDir string) (err error) {
+	err = filepath.WalkDir(pathToDir, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if !d.IsDir() && strings.HasSuffix(d.Name(), ".md") {
+			err = convertFile(path)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+
+	})
+	if err != nil {
+		return err
+	}
+	return nil
 }
