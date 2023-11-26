@@ -1,0 +1,67 @@
+FM
+==
+
+/* just for figuring out realistic structure */
+
+01-intro.md
+
+02-time-value-basics/
+  01-drawing-timeline.md
+  02-intro-to-interest/
+    01-simple-interest.md
+    02-treasury-bond-example.md
+    03-compounding-interest.md
+  03-apr-vs-apy.md
+  04-discount-rate.md
+  05-continuously-compounding-interest/
+    01-derive-with-lims.md
+    02-e-example.md
+
+03-annuities/
+  01-future-value/
+    01-derive-future-value.md
+    02-future-value-example.md
+  02-present-value/
+    01-derive-present-value.md
+    02-present-value-example.md
+  03-deferred.md
+  04-continuous.md
+  05-perpetuities.md
+  06-constant-deltas/
+    01-increasing.md
+    02-decreasing.md
+    03-splitting-annuities.md
+  07-geometric.md
+
+04-loans/
+  01-loan-intro.md
+  02-without-calc/
+    01-terms.md
+    02-morgage-example.md
+    03-calculating-with-payment-amt.md
+  03-with-calc/
+    01-loan-compute-menu.md
+    02-revisiting-example.md
+  04-uniform-payments-loan.md
+
+05-bonds/
+  01-derive-franc-eq.md
+  02-interest-vs-coupon-rates.md
+  03-without-calc/
+    01-example.md
+  04-with-calc/
+    01-tvm-keys.md
+    02-revisiting-example.md
+
+06-cash-flows/
+  01-duration/
+    01-mac-d.md
+    02-mod-d.md
+  02-convexity/
+    01-mac-c.md
+    02-mod-c.md
+  03-spot-rate.md
+  04-portfolios.md
+  05-immunization/
+    01-redington-immunization.md
+    02-full-immunization.md
