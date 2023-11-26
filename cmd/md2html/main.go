@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"io/fs"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -143,4 +144,16 @@ func convertDir(pathToDir string) (err error) {
 		return err
 	}
 	return nil
+}
+
+func main() {
+	// TODO actually scan through to find lessons
+	err := convertDir("./html/topics/p/lessons")
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = convertDir("./html/topics/fm/lessons")
+	if err != nil {
+		log.Println(err.Error())
+	}
 }
