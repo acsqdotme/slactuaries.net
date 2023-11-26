@@ -15,6 +15,29 @@ func GenerateTree(pathToRoot string, extFilter string, urlBase string) (*Tree, e
 	}
 
 	makePaths(t, urlBase, true)
+
+	// lastLeaf is the variable that setPrevNext uses to flatten out files and
+	// point them to each other
+	var lastLeaf **Tree
+
+	// setPrevNext preemptively declared as it's recursively called in its
+	// definition
+	var setPrevNext func(*Tree)
+	setPrevNext = func(t *Tree) {
+		if !t.IsDir {
+			if lastLeaf != nil {
+				(*lastLeaf).Next = t
+				t.Prev = *lastLeaf
+			}
+			lastLeaf = &t
+		}
+
+		if t.IsDir {
+			for _, child := range t.Children {
+				setPrevNext(child)
+			}
+		}
+	}
 	setPrevNext(t)
 
 	return t, nil
@@ -72,28 +95,6 @@ func makePaths(t *Tree, base string, first bool) {
 	if t.IsDir {
 		for _, ch := range t.Children {
 			makePaths(ch, t.URLPath, false)
-		}
-	}
-}
-
-// lastLeaf is a helper variable for setPrevNext
-// TODO make unglobal
-var lastLeaf **Tree
-
-// setPrevNext flattens and sets previous and next pointers for all files in
-// the tree
-func setPrevNext(t *Tree) {
-	if !t.IsDir {
-		if lastLeaf != nil {
-			(*lastLeaf).Next = t
-			t.Prev = *lastLeaf
-		}
-		lastLeaf = &t
-	}
-
-	if t.IsDir {
-		for _, child := range t.Children {
-			setPrevNext(child)
 		}
 	}
 }
