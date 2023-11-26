@@ -5,12 +5,12 @@
     <nav class="prevNext">
       {{ with .Prev }}
       <span class="prev">Previous:
-        <a href="{{ .Prev.URLPath }}">{{ .Prev.FileName }}</a>
+        <a href="{{ .URLPath }}">{{ .FileName }}</a>
       </span>
       {{ end }}
       {{ with .Next }}
       <span class="next">Next:
-        <a href="{{ .Next.URLPath }}">{{ .Next.FileName }}</a>
+        <a href="{{ .URLPath }}">{{ .FileName }}</a>
       </span>
       {{ end }}
     </nav>
