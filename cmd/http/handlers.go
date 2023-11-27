@@ -61,9 +61,10 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 	buf.WriteTo(w)
 }
 
-func fetchBaseData(path string) (data map[string]any) {
+func fetchBaseData(r *http.Request) (data map[string]any) {
 	data = make(map[string]any)
-	data["Path"] = path
+	data["Path"] = r.URL.Path
+	data["Host"] = r.Host
 	return data
 }
 
@@ -89,7 +90,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := fetchBaseData(r.URL.Path)
+	data := fetchBaseData(r)
 
 	tmpl, err := bindTMPL(
 		filepath.Join(htmlDir, "base"+tmplFileExt),
@@ -120,7 +121,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := fetchBaseData(r.URL.Path)
+	data := fetchBaseData(r)
 	t, err := direr.GenerateTree(filepath.Join(htmlDir, "topics", topic, "lessons"), tmplFileExt, filepath.Join("/", topic)) //TODO change to tmpl html
 	if err != nil {
 		log.Println(err.Error())
