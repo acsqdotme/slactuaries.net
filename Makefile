@@ -36,7 +36,7 @@ tex:
 	./cmd/md2tex/md2pdf.sh html/topics/fm/lessons
 .PHONY:tex
 
-build: html
+build: html tex
 	go build $(http_path)
 .PHONY:build
 
