@@ -11,19 +11,24 @@ an actuarial degree and some exams into a slick site.
 
 * templating engine
 
+* md2html system with [goldmark](https://github.com/yuin/goldmark)
+
 * lots of love <3
 
 ## wanna help?
 
 you can...
 
-* send [pull requests](https://github.com/acsqdotme/slactuaries.net) or [email
-  patches](https://sr.ht/~acsqdotme/slactuaries.net) for my dodgy code
-
 * give suggestions for the content itself
 
 * send in your old notes! as long as it's legible and easy to read through,
   it'll make a cool addition to the site
+
+* send issues, questions, and wanted features on
+  [sourcehut](https://todo.sr.ht/~acsqdotme/slactuaries.net)
+
+* send [pull requests](https://github.com/acsqdotme/slactuaries.net) or [email
+  patches](https://lists.sr.ht/~acsqdotme/slactuaries.net) for my dodgy code
 
 * get in touch and share your thoughts
 
