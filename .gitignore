@@ -1,5 +1,7 @@
 /html/topics/fm/lessons/**/*.tmpl.html
 /html/topics/p/lessons/**/*.tmpl.html
+/html/topics/fm/lessons/**/*.pdf
+/html/topics/p/lessons/**/*.pdf
 
 /http
 !/cmd/http
