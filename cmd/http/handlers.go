@@ -74,6 +74,7 @@ func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
 
 	tmpl, err := bindTMPL(
 		filepath.Join(htmlDir, "base"+tmplFileExt),
+		filepath.Join(htmlDir, "partials", "error_meta"+tmplFileExt),
 		filepath.Join(htmlDir, "errors", strconv.Itoa(httpCode)+tmplFileExt),
 	)
 	if err != nil {
