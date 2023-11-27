@@ -154,6 +154,12 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if strings.HasSuffix(page, ".pdf") && doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page)) {
+		w.Header().Set("Content-Type", "application/pdf")
+		http.ServeFile(w, r, filepath.Join(htmlDir, "topics", topic, "lessons", page))
+		return
+	}
+
 	if !doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page+tmplFileExt)) { // TODO change how this checks for files
 		http.Error(w, "page not found", http.StatusNotFound)
 		return
