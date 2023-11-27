@@ -1,5 +1,7 @@
 {{ define "main" }}
+  <article>
   {{template "article" . }}
+  </article>
 
   <a href="{{ .Path }}.md">[View Markdown]</a>
   {{ block "prevNextLinks" .Tree }}
