@@ -31,6 +31,11 @@ html:
 	go run $(md2html_path)
 .PHONY:html
 
+tex:
+	./cmd/md2tex/md2pdf.sh html/topics/p/lessons
+	./cmd/md2tex/md2pdf.sh html/topics/fm/lessons
+.PHONY:tex
+
 build: html
 	go build $(http_path)
 .PHONY:build
