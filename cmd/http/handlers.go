@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"slactuaries.net/pkgs/direr"
@@ -54,8 +55,7 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 	err := tmpl.ExecuteTemplate(&buf, "base", data)
 	if err != nil {
 		log.Println(err.Error())
-		// fancyErrorHandler(w, r, http.StatusInternalServerError)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError) // TODO add proper error pages
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
 	buf.WriteTo(w)
@@ -66,6 +66,29 @@ func fetchBaseData(r *http.Request) (data map[string]any) {
 	data["Path"] = r.URL.Path
 	data["Host"] = r.Host
 	return data
+}
+
+func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(httpCode)
+
+	tmpl, err := bindTMPL(
+		filepath.Join(htmlDir, "base"+tmplFileExt),
+		filepath.Join(htmlDir, "errors", strconv.Itoa(httpCode)+tmplFileExt),
+	)
+	if err != nil {
+		log.Println(err.Error())
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
+
+	err = tmpl.ExecuteTemplate(w, "base", nil) // TODO write to bytes buffer first like in serveTMPL
+	if err != nil {
+		log.Println(err.Error())
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
+	return
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
@@ -81,12 +104,12 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/"+page, 302)
 		return
 	} else if len(path) > 3 {
-		http.Error(w, "page not found", http.StatusNotFound)
+		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
 	if !doesFileExist(filepath.Join(htmlDir, "pages", page+tmplFileExt)) {
-		http.Error(w, "page not found", http.StatusNotFound)
+		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
@@ -98,11 +121,12 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 	)
 	if err != nil {
 		log.Println(err.Error())
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
 
 	serveTMPL(w, r, tmpl, data)
+	return
 }
 
 func topicHandler(w http.ResponseWriter, r *http.Request) {
@@ -112,7 +136,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	topic := path[1]
 
 	if !doesDirExist(filepath.Join(htmlDir, "topics", topic)) {
-		http.Error(w, "page not found", http.StatusNotFound)
+		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
@@ -125,7 +149,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	t, err := direr.GenerateTree(filepath.Join(htmlDir, "topics", topic, "lessons"), tmplFileExt, filepath.Join("/", topic)) //TODO change to tmpl html
 	if err != nil {
 		log.Println(err.Error())
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
 	data["Tree"] = *t
@@ -138,7 +162,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		)
 		if err != nil {
 			log.Println(err.Error())
-			http.Error(w, "internal server error", http.StatusInternalServerError)
+			fancyErrorHandler(w, r, http.StatusInternalServerError)
 			return
 		}
 
@@ -161,7 +185,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page+tmplFileExt)) { // TODO change how this checks for files
-		http.Error(w, "page not found", http.StatusNotFound)
+		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
@@ -169,7 +193,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	t = direr.GetSubTree(t, filepath.Clean(r.URL.Path))
 	if t == nil {
 		log.Println(errors.New("subtree meta data not found"))
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
 	data["Tree"] = *t
@@ -181,7 +205,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	)
 	if err != nil {
 		log.Println(err.Error())
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
 
