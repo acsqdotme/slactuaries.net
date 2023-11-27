@@ -49,7 +49,7 @@ func bindTMPL(files ...string) (*template.Template, error) {
 	return tmpl, nil
 }
 
-func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, data map[string]interface{}) {
+func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, data map[string]any) {
 	var buf bytes.Buffer
 	err := tmpl.ExecuteTemplate(&buf, "base", data)
 	if err != nil {
@@ -59,6 +59,12 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 		return
 	}
 	buf.WriteTo(w)
+}
+
+func fetchBaseData(path string) (data map[string]any) {
+	data = make(map[string]any)
+	data["Path"] = path
+	return data
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
@@ -83,6 +89,8 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	data := fetchBaseData(r.URL.Path)
+
 	tmpl, err := bindTMPL(
 		filepath.Join(htmlDir, "base"+tmplFileExt),
 		filepath.Join(htmlDir, "pages", page+tmplFileExt),
@@ -93,7 +101,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	serveTMPL(w, r, tmpl, nil)
+	serveTMPL(w, r, tmpl, data)
 }
 
 func topicHandler(w http.ResponseWriter, r *http.Request) {
@@ -112,8 +120,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := make(map[string]any) // TODO make base data func that gives back template data essentials
-	data["Path"] = r.URL.Path
+	data := fetchBaseData(r.URL.Path)
 	t, err := direr.GenerateTree(filepath.Join(htmlDir, "topics", topic, "lessons"), tmplFileExt, filepath.Join("/", topic)) //TODO change to tmpl html
 	if err != nil {
 		log.Println(err.Error())
