@@ -27,7 +27,7 @@ run: vet
 	go run $(http_path)
 .PHONY:run
 
-html: vet
+html:
 	go run $(md2html_path)
 .PHONY:html
 
