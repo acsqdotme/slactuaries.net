@@ -112,7 +112,8 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := make(map[string]any)
+	data := make(map[string]any) // TODO make base data func that gives back template data essentials
+	data["Path"] = r.URL.Path
 	t, err := direr.GenerateTree(filepath.Join(htmlDir, "topics", topic, "lessons"), tmplFileExt, filepath.Join("/", topic)) //TODO change to tmpl html
 	if err != nil {
 		log.Println(err.Error())
@@ -138,6 +139,12 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	page := strings.TrimPrefix(r.URL.Path, "/"+topic+"/") // TODO make this less ugly but still removing leading slash
+
+	if strings.HasSuffix(page, ".md") && doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page)) {
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		http.ServeFile(w, r, filepath.Join(htmlDir, "topics", topic, "lessons", page))
+		return
+	}
 
 	if !doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page+tmplFileExt)) { // TODO change how this checks for files
 		http.Error(w, "page not found", http.StatusNotFound)
