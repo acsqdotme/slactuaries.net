@@ -32,6 +32,7 @@ type Front struct {
 	Desc  string `yaml:"description"`
 }
 
+// Valid is to make sure frontmatter isn't empty in a file
 func (m Front) Valid() bool {
 	if len(m.Desc) > 0 && len(m.Title) > 0 {
 		return true
