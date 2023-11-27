@@ -13,20 +13,6 @@ an actuarial degree and some exams into a slick site.
 
 * lots of love <3
 
-## TODO
-
-- [ ] type up notes into markdown
-
-- [ ] set up proper notes filesystem and query abilities (no sql though)
-
-- [ ] make md -> html with native go solution
-
-- [x] ~~set up KaTeX for equation rendering~~ (still need to source locally though)
-
-- [ ] user login and track progress (probably sql)
-
-- [ ] cool ui
-
 ## wanna help?
 
 you can...
