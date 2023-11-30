@@ -21,6 +21,11 @@ body {
   line-height: 1.4;
 }
 
+address {
+  font-style: normal;
+  display: inline;
+}
+
 .topheader * {
   display: inline;
 }
