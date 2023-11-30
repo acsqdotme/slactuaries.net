@@ -5,4 +5,15 @@ Actuarial learning site
 
 {{ define "main" }}
 <p>This is slactuaries.net, the coolest actuarial math site.</p>
+
+<span>
+  <details>
+    <summary>Site last edited on <time datetime={{ .GitDate }}>{{ .GitPrettyDate }}</time></summary>
+    <pre>{{ .GitMessage }}
+
+<a href="https://git.sr.ht/~acsqdotme/slactuaries.net/commit/{{ .GitHash }}" target="_blank" rel="noreferrer">{{ .GitHash }}</a>
+<address>Author:	{{ .GitAuthorName }} &lt;{{ .GitAuthorEmail }}&gt;
+{{ with .GitAuthorGPG }}Signed:	{{ . }}{{ end }}</address></pre>
+  </details>
+</span>
 {{ end }}
