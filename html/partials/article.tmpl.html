@@ -19,5 +19,15 @@
   {{ end }}
   <a href="{{ .Path }}.md">[View Markdown]</a>
   <a href="{{ .Path }}.pdf">[View Printable PDF]</a>
+
+  <p>
+    Improve on <a href="https://git.sr.ht/~acsqdotme/slactuaries.net">Sourcehut
+    <img src="/static/logos/sourcehut.svg" alt="sourcehut circle"
+    style="max-width: 1em;vertical-align: middle; display: inline;" /></a>
+    or online through
+    <a href="https://github.com/acsqdotme/slactuaries.net/edit/master/{{ .Tree.FilePath }}.md">Github <img
+    src="/static/logos/github-mark.svg" alt="github squid"
+    style="max-width: 1em;vertical-align: middle; display: inline;" /></a> <!-- TODO change to darkmode when... dark -->
+  </p>
   {{ template "edited" . }}
 {{ end }}
