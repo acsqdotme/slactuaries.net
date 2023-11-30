@@ -1,0 +1,12 @@
+{{ define "edited" }}
+  <span>
+    <details>
+      <summary>Page last edited on <time datetime={{ .GitDate }}>{{ .GitDate }}</time></summary><!-- TODO use something less scary than iso for date inside tag-->
+      <pre>{{ .GitMessage }}
+
+<a href="https://git.sr.ht/~acsqdotme/slactuaries.net/commit/{{ .GitHash }}" target="_blank" rel="noreferrer">{{ .GitHash }}</a>
+<address>Author:	{{ .GitAuthorName }} &lt;{{ .GitAuthorEmail }}&gt;
+{{ with .GitAuthorGPG }}Signed:	{{ . }}{{ end }}</address></pre>
+    </details>
+  </span>
+{{ end }}

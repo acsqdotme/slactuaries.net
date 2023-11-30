@@ -19,4 +19,5 @@
   {{ end }}
   <a href="{{ .Path }}.md">[View Markdown]</a>
   <a href="{{ .Path }}.pdf">[View Printable PDF]</a>
+  {{ template "edited" . }}
 {{ end }}
