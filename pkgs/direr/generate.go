@@ -14,7 +14,8 @@ func GenerateTree(pathToRoot string, extFilter string, urlBase string) (*Tree, e
 		return nil, err
 	}
 
-	makePaths(t, urlBase, true)
+	makeURLPaths(t, urlBase, true)
+	makeFilePaths(t, pathToRoot, true)
 
 	// lastLeaf is the variable that setPrevNext uses to flatten out files and
 	// point them to each other
@@ -83,10 +84,8 @@ func scanTree(pathToRoot string, extFilter string) (t *Tree, err error) {
 }
 
 // makePaths walks through a tree and fills in each node's URL Path
-// according to the base string and the cut out file extension filter
-// TODO make internal func and bootstrap with scanTree to a generic
-// GenerateTree func
-func makePaths(t *Tree, base string, first bool) {
+// according to the base string
+func makeURLPaths(t *Tree, base string, first bool) {
 	t.URLPath = filepath.Join(base, t.FileName)
 	if first {
 		t.URLPath = filepath.Join(base)
@@ -94,7 +93,23 @@ func makePaths(t *Tree, base string, first bool) {
 
 	if t.IsDir {
 		for _, ch := range t.Children {
-			makePaths(ch, t.URLPath, false)
+			makeURLPaths(ch, t.URLPath, false)
+		}
+	}
+}
+
+// makeFilePaths walks through a tree and fills in each node's File Path
+// according to the base string
+// TODO don't be lazy; figure out how to combine with makeURLPaths
+func makeFilePaths(t *Tree, base string, first bool) {
+	t.FilePath = filepath.Join(base, t.FileName)
+	if first {
+		t.FilePath = filepath.Join(base)
+	}
+
+	if t.IsDir {
+		for _, ch := range t.Children {
+			makeFilePaths(ch, t.FilePath, false)
 		}
 	}
 }

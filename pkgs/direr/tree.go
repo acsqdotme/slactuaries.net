@@ -13,6 +13,7 @@ type Tree struct {
 	FileName string
 	IsDir    bool
 	URLPath  string
+	FilePath string
 	Prev     *Tree
 	Next     *Tree
 	Children []*Tree
