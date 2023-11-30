@@ -170,20 +170,21 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	page := strings.TrimPrefix(r.URL.Path, "/"+topic+"/") // TODO make this less ugly but still removing leading slash
+	pageFilePath := filepath.Join(htmlDir, "topics", topic, "lessons", page)
 
-	if strings.HasSuffix(page, ".md") && doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page)) {
+	if strings.HasSuffix(page, ".md") && doesFileExist(pageFilePath) {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		http.ServeFile(w, r, filepath.Join(htmlDir, "topics", topic, "lessons", page))
 		return
 	}
 
-	if strings.HasSuffix(page, ".pdf") && doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page)) {
+	if strings.HasSuffix(page, ".pdf") && doesFileExist(pageFilePath) {
 		w.Header().Set("Content-Type", "application/pdf")
 		http.ServeFile(w, r, filepath.Join(htmlDir, "topics", topic, "lessons", page))
 		return
 	}
 
-	if !doesFileExist(filepath.Join(htmlDir, "topics", topic, "lessons", page+tmplFileExt)) { // TODO change how this checks for files
+	if !doesFileExist(pageFilePath + tmplFileExt) { // TODO change how this checks for files
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
