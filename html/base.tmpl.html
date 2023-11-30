@@ -42,6 +42,22 @@
         <a href="/about">About</a>
       </nav>
       {{ end }}
+      <input type="checkbox" name="switch" id="light-dark" />
+      <script type="text/javascript">
+        // Get the button element
+        const btn = document.querySelector("#light-dark");
+        // Detect if user preference is dark
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+        // On button click
+        btn.addEventListener("click", function() {
+          // Get users preference
+          const userSystemPreference = prefersDarkScheme.matches ? "dark" : "light";
+          // Choose the class that will be added or removed
+          const toggleClass = userSystemPreference === "dark" ? "light" : "dark";
+          // Add or remove the class on the <html> element
+          document.documentElement.classList.toggle(toggleClass);
+        });
+      </script>
     </header>
     <main>
       {{ template "main" . }}

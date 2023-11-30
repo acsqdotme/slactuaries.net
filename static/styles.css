@@ -3,11 +3,22 @@
   --bg-color: #FFFFFF;
 }
 
+/* .light and .dark classes makes switching v ez; read about it here:
+ * www.albertovarela.net/blog/2022/07/implementing-light-dark-mode/ */
 @media (prefers-color-scheme:dark) {
   :root {
     --txt-color: #FFFFFF;
     --bg-color: #212529;
   }
+  .light body {
+  --txt-color: #000000;
+  --bg-color: #FFFFFF;
+  }
+}
+
+.dark body {
+  --txt-color: #FFFFFF;
+  --bg-color: #212529;
 }
 
 body {
