@@ -7,10 +7,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
 
+	"gopkg.in/yaml.v3"
 	"slactuaries.net/pkgs/direr"
 )
 
@@ -69,6 +71,37 @@ func fetchBaseData(r *http.Request) (data map[string]any) {
 	return data
 }
 
+func getGitData(data map[string]any, pathToFile string) error {
+	queryYAML, err := exec.Command("cmd/git-last", pathToFile).Output()
+	if err != nil {
+		return err
+	}
+
+	gitQuery := struct {
+		Message string `yaml:"message"`
+		Hash    string `yaml:"hash"`
+		Date    string `yaml:"date"`
+		Author  string `yaml:"author"`
+		Email   string `yaml:"email"`
+		GPG     string `yaml:"gpg"`
+	}{}
+
+	err = yaml.Unmarshal(queryYAML, &gitQuery)
+	if err != nil {
+		return err
+	} else if gitQuery.Hash == "" {
+		return errors.New("Empty git query")
+	}
+
+	data["GitMessage"] = gitQuery.Message
+	data["GitHash"] = gitQuery.Hash
+	data["GitDate"] = gitQuery.Date
+	data["GitAuthorName"] = gitQuery.Author
+	data["GitAuthorEmail"] = gitQuery.Email
+	data["GitAuthorGPG"] = gitQuery.GPG
+	return nil
+}
+
 func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(httpCode)
@@ -115,6 +148,14 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := fetchBaseData(r)
+	if r.URL.Path == "/" {
+		err := getGitData(data, ".")
+		if err != nil {
+			log.Println(err.Error())
+			fancyErrorHandler(w, r, http.StatusInternalServerError)
+			return
+		}
+	}
 
 	tmpl, err := bindTMPL(
 		filepath.Join(htmlDir, "base"+tmplFileExt),
@@ -197,6 +238,12 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data["Tree"] = *t
+	err = getGitData(data, pageFilePath+".md") // TODO: don't just assume edits only to markdown
+	if err != nil {
+		log.Println(err.Error())
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
 
 	tmpl, err := bindTMPL(
 		filepath.Join(htmlDir, "base"+tmplFileExt),
