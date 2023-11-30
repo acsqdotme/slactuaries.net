@@ -11,6 +11,14 @@
     <link rel="canonical" href="https://{{ .Host }}{{ .Path }}">
     {{ end }}
     <title>{{template "title" . }} - slactuaries</title>
+    <script type="text/javascript">
+      // must load before css
+      (function () {
+          var userCurrentPreference = localStorage.getItem("mode");
+          if (userCurrentPreference === "dark") document.documentElement.classList.toggle("dark");
+          else if (userCurrentPreference === "light") document.documentElement.classList.toggle("light");
+      })();
+    </script>
     <link href="/static/styles.css" rel="stylesheet">
     <link rel="icon" href="/static/favicon.ico">
 
@@ -56,6 +64,10 @@
           const toggleClass = userSystemPreference === "dark" ? "light" : "dark";
           // Add or remove the class on the <html> element
           document.documentElement.classList.toggle(toggleClass);
+          // Obtain which is the user's current preference for our website
+          const userCurrentPreference = document.documentElement.classList.contains(toggleClass) ? toggleClass : userSystemPreference;
+          // Save it in local storage
+          localStorage.setItem("mode", userCurrentPreference);
         });
       </script>
     </header>
