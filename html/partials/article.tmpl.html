@@ -6,13 +6,13 @@
   {{ block "prevNextLinks" .Tree }}
     <nav class="prevNext">
       {{ with .Prev }}
-      <span class="prev">Previous:
-        <a href="{{ .URLPath }}">{{ .FileName }}</a>
+      <span class="prev">
+        &lt;-<a href="{{ .URLPath }}">{{ .FileName }}</a>
       </span>
       {{ end }}
       {{ with .Next }}
-      <span class="next">Next:
-        <a href="{{ .URLPath }}">{{ .FileName }}</a>
+      <span class="next">
+        <a href="{{ .URLPath }}">{{ .FileName }}</a>-&gt;
       </span>
       {{ end }}
     </nav>
