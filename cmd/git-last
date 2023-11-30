@@ -1,0 +1,21 @@
+#!/bin/sh -eu
+# script for querying local git repo for particular file's last commit
+# TODO add dir functionality
+
+if [ "$#" -ne 1 ]; then
+  printf "get yaml format of most recent git commit of file\nusage: ./cmd/git-last <file>\n"
+  exit 0
+fi
+
+path_to_file="$1"
+dir="$(dirname "$path_to_file")"
+file="$(basename "$path_to_file")"
+
+
+cd "$dir"
+git log --follow -n 1 --date=iso-strict --format="message: %s%n\
+hash: %H%n\
+date: %ad%n\
+author: %an%n\
+email: %ae%n\
+gpg: %GP" "$file"
