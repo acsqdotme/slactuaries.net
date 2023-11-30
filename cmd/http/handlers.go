@@ -58,6 +58,7 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 		fancyErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	buf.WriteTo(w)
 }
 
@@ -93,7 +94,6 @@ func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	path := strings.Split(r.URL.Path, "/")
 	page := path[1]
@@ -131,8 +131,6 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func topicHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
 	path := strings.Split(r.URL.Path, "/")
 	topic := path[1]
 
