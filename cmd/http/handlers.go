@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"gopkg.in/yaml.v3"
 	"slactuaries.net/pkgs/direr"
@@ -92,10 +93,12 @@ func getGitData(data map[string]any, pathToFile string) error {
 	} else if gitQuery.Hash == "" {
 		return errors.New("Empty git query")
 	}
+	date, err := time.Parse(time.RFC3339, gitQuery.Date)
 
 	data["GitMessage"] = gitQuery.Message
 	data["GitHash"] = gitQuery.Hash
-	data["GitDate"] = gitQuery.Date
+	data["GitDate"] = date.Format(time.RFC3339)
+	data["GitPrettyDate"] = date.Format(time.RFC1123Z)
 	data["GitAuthorName"] = gitQuery.Author
 	data["GitAuthorEmail"] = gitQuery.Email
 	data["GitAuthorGPG"] = gitQuery.GPG
