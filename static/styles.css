@@ -4,10 +4,10 @@
   --txt-color: #000000;
   --content-bg-color: #FFFFFF;
   --html-bg-color: #D0D3D4;
+  --shadow-color: rgb(119, 119, 119);
   --msoe-red: #C5050C;
 
-  --sun-icon: url('/static/icons/sun-regular.svg');
-  --dark-icon: url('/static/icons/sun-solid.svg');
+  --mode-icon: url('/static/icons/sun-regular.svg');
 }
 
 /* .light and .dark classes makes switching v ez; read about it here:
@@ -17,14 +17,16 @@
     --txt-color: #FFFFFF;
     --content-bg-color: #292e33;
     --html-bg-color: #1b1f22;
-    --sun-icon: url('/static/icons/sun-solid.svg');
+    --shadow-color: #23292e;
+    --mode-icon: url('/static/icons/sun-solid.svg');
   }
 
   .light body {
-  --txt-color: #000000;
-  --content-bg-color: #FFFFFF;
-  --html-bg-color: #D0D3D4;
-  --msoe-red: #C5050C;
+    --txt-color: #000000;
+    --content-bg-color: #FFFFFF;
+    --html-bg-color: #D0D3D4;
+    --shadow-color: rgb(119, 119, 119);
+    --mode-icon: url('/static/icons/sun-regular.svg');
   }
 }
 
@@ -32,7 +34,8 @@
   --txt-color: #FFFFFF;
   --content-bg-color: #292e33;
   --html-bg-color: #1b1f22;
-  --sun-icon: url('/static/icons/sun-solid.svg');
+  --shadow-color: #23292e;
+  --mode-icon: url('/static/icons/sun-solid.svg');
 }
 
 html {
@@ -43,7 +46,7 @@ body {
   font-family: Poppins, sans-serif;
   font-size: max(14pt, 100%);
   max-width: 80rem;
-  margin: 0.7em auto;
+  margin: 1em auto;
   background-color: var(--html-bg-color);
   color: var(--txt-color);
   padding: 0 1em;
@@ -53,7 +56,7 @@ body {
 .container {
   padding: 2rem;
   background-color: var(--content-bg-color);
-  box-shadow: 0 0 0.5rem rgb(119, 119, 119);
+  box-shadow: 0 0 0.7rem var(--shadow-color);
 }
 
 main {
@@ -114,10 +117,6 @@ h2 {
   border-bottom: 2px solid var(--msoe-red);
 }
 
-details summary::-webkit-details-marker {
-  display: none;
-}
-
 .topbar {
   display: grid;
   grid-template-columns: 1fr 1.5rem;
@@ -150,8 +149,8 @@ details summary::-webkit-details-marker {
   width: 1.25rem;
   margin: 0.125rem;
   background-color: var(--txt-color);
-  -webkit-mask: var(--sun-icon) no-repeat 0 0/1.25rem 1.25rem;
-  mask: var(--sun-icon) no-repeat 0 0/1.25rem 1.25rem;
+  -webkit-mask: var(--mode-icon) no-repeat 0 0/1.25rem 1.25rem;
+  mask: var(--mode-icon) no-repeat 0 0/1.25rem 1.25rem;
 }
 
 .landing-page {
@@ -162,6 +161,10 @@ details summary::-webkit-details-marker {
 .landing-message {
   font-weight: 800;
   font-size: 4rem;
+}
+
+details:not(.landing-page-details) {
+  margin-top: 4rem;
 }
 
 summary {
