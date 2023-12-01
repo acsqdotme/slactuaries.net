@@ -24,12 +24,15 @@
   --txt-color: #000000;
   --content-bg-color: #FFFFFF;
   --html-bg-color: #D0D3D4;
+  --msoe-red: #C5050C;
   }
 }
 
 .dark body {
   --txt-color: #FFFFFF;
-  --content-bg-color: #212529;
+  --content-bg-color: #292e33;
+  --html-bg-color: #1b1f22;
+  --sun-icon: url('/static/icons/sun-solid.svg');
 }
 
 html {
