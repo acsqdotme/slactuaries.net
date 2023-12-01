@@ -4,16 +4,18 @@ Actuarial learning site
 {{ end }}
 
 {{ define "main" }}
-<p>This is slactuaries.net, the coolest actuarial math site.</p>
+<div class="landing-page">
+  <span class="landing-message">This is slactuaries.net,<br />the coolest actuarial math site.</span>
 
-<span>
-  <details>
-    <summary>Site last edited on <time datetime={{ .GitDate }}>{{ .GitPrettyDate }}</time></summary>
-    <pre>{{ .GitMessage }}
+  <span>
+    <details>
+      <summary><span class="flashing-cursor">Last site edit: <time datetime={{ .GitDate }}>{{ .GitPrettyDate }}</time></span></summary>
+      <pre>{{ .GitMessage }}
 
-<a href="https://git.sr.ht/~acsqdotme/slactuaries.net/commit/{{ .GitHash }}" target="_blank" rel="noreferrer">{{ .GitHash }}</a>
-<address>Author:	{{ .GitAuthorName }} &lt;{{ .GitAuthorEmail }}&gt;
-{{ with .GitAuthorGPG }}Signed:	{{ . }}{{ end }}</address></pre>
-  </details>
-</span>
+      <a href="https://git.sr.ht/~acsqdotme/slactuaries.net/commit/{{ .GitHash }}" target="_blank" rel="noreferrer">{{ .GitHash }}</a>
+      <address>Author:	{{ .GitAuthorName }} &lt;{{ .GitAuthorEmail }}&gt;
+      {{ with .GitAuthorGPG }}Signed:	{{ . }}{{ end }}</address></pre>
+    </details>
+  </span>
+</div>
 {{ end }}

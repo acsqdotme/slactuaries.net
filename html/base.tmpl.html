@@ -33,56 +33,63 @@
         onload="renderMathInElement(document.body);"></script>
   </head>
   <body>
-    <header>
-      {{ block "header" . }}
-      <div class="topheader">
-        <h1>
-          <a href="/">slactuaries.net</a>
-        </h1>
-        <span>
-          don't be a slactuary
-        </span>
-      </div>
-      <nav>
-        <a href="/what-is-as">What's an Actuary?</a>
-        <a href="/fm">Financial Math</a>
-        <a href="/p">Probability</a>
-        <a href="/about">About</a>
-      </nav>
-      {{ end }}
-      <input type="checkbox" name="switch" id="light-dark" />
-      <script type="text/javascript">
-        // Get the button element
-        const btn = document.querySelector("#light-dark");
-        // Detect if user preference is dark
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-        // On button click
-        btn.addEventListener("click", function() {
-          // Get users preference
-          const userSystemPreference = prefersDarkScheme.matches ? "dark" : "light";
-          // Choose the class that will be added or removed
-          const toggleClass = userSystemPreference === "dark" ? "light" : "dark";
-          // Add or remove the class on the <html> element
-          document.documentElement.classList.toggle(toggleClass);
-          // Obtain which is the user's current preference for our website
-          const userCurrentPreference = document.documentElement.classList.contains(toggleClass) ? toggleClass : userSystemPreference;
-          // Save it in local storage
-          localStorage.setItem("mode", userCurrentPreference);
-        });
-      </script>
-    </header>
-    <main>
-      {{ template "main" . }}
-    </main>
-    <footer>
-      {{ block "footer" . }}
-      <p>
-        code under <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank" rel="noreferrer">agpl</a><br>
-        articles under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">cc-by-sa</a><br>
-        thoughts? reach out! <a href="mailto:angel@acsq.me?subject=slactuaries">angel@acsq.me</a>
-      </p>
-      {{ end }}
-    </footer>
+    <div class="container">
+      <header>
+        {{ block "header" . }}
+        <div class="topheader">
+          <h1>
+            <a href="/">Slactuaries.net</a>
+          </h1>
+          <span>
+            Don't be a slactuary
+          </span>
+        </div>
+        <div class="topbar">
+          <nav>
+            <a href="/">Home</a>
+            <a href="/what-is-as">What's an Actuary?</a>
+            <a href="/fm">Financial Math</a>
+            <a href="/p">Probability</a>
+            <a href="/about">About</a>
+          </nav>
+          <div class="light-dark-container">
+            <input type="checkbox" name="switch" id="light-dark" />
+            <div class="light-dark-icon"></div>
+          </div>
+          <script type="text/javascript">
+            // Get the button element
+            const btn = document.querySelector("#light-dark");
+            // Detect if user preference is dark
+            const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+            // On button click
+            btn.addEventListener("click", function() {
+              // Get users preference
+              const userSystemPreference = prefersDarkScheme.matches ? "dark" : "light";
+              // Choose the class that will be added or removed
+              const toggleClass = userSystemPreference === "dark" ? "light" : "dark";
+              // Add or remove the class on the <html> element
+              document.documentElement.classList.toggle(toggleClass);
+              // Obtain which is the user's current preference for our website
+              const userCurrentPreference = document.documentElement.classList.contains(toggleClass) ? toggleClass : userSystemPreference;
+              // Save it in local storage
+              localStorage.setItem("mode", userCurrentPreference);
+            });
+          </script>
+        </div>
+        {{ end }}
+      </header>
+      <main>
+        {{ template "main" . }}
+      </main>
+      <footer>
+        {{ block "footer" . }}
+        <p>Code under <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank" rel="noreferrer">agpl</a></p>
+        <p>Articles under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">cc-by-sa</a></p>
+        <p>Thoughts? reach out! <a href="mailto:angel@acsq.me?subject=slactuaries">angel@acsq.me</a>
+        </p>
+        {{ end }}
+      </footer>
+    </div>
   </body>
 </html>
 {{ end }}
