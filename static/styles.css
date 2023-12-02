@@ -7,7 +7,7 @@
   --shadow-color: rgb(119, 119, 119);
   --msoe-red: #C5050C;
 
-  --mode-icon: url('/static/icons/sun-regular.svg');
+  --mode-icon: url('/static/icons/moon.svg');
 }
 
 /* .light and .dark classes makes switching v ez; read about it here:
@@ -18,7 +18,7 @@
     --content-bg-color: #292e33;
     --html-bg-color: #1b1f22;
     --shadow-color: #23292e;
-    --mode-icon: url('/static/icons/sun-solid.svg');
+    --mode-icon: url('/static/icons/sun.svg');
   }
 
   .light body {
@@ -26,7 +26,7 @@
     --content-bg-color: #FFFFFF;
     --html-bg-color: #D0D3D4;
     --shadow-color: rgb(119, 119, 119);
-    --mode-icon: url('/static/icons/sun-regular.svg');
+    --mode-icon: url('/static/icons/moon.svg');
   }
 }
 
@@ -35,7 +35,7 @@
   --content-bg-color: #292e33;
   --html-bg-color: #1b1f22;
   --shadow-color: #23292e;
-  --mode-icon: url('/static/icons/sun-solid.svg');
+  --mode-icon: url('/static/icons/sun.svg');
 }
 
 html {
@@ -72,7 +72,7 @@ header {
   padding: 1rem;
   padding-left: 2.35rem;
   margin-bottom: 2rem;
-  border-left: 0.65rem solid var(--msoe-red);
+  border-left: 0.85rem solid var(--msoe-red);
   border-top: 0.35rem solid var(--msoe-red)
 }
 
@@ -163,7 +163,7 @@ h2 {
   font-size: 4rem;
 }
 
-details:not(.landing-page-details) {
+details:not(.landing-page-update-time) {
   margin-top: 4rem;
 }
 
@@ -171,8 +171,8 @@ summary {
   cursor: pointer;
 }
 
-.flashing-cursor {
-  border-right: 2px;
+.intro-par {
+  margin-bottom: 3rem;
 }
 
 li {
